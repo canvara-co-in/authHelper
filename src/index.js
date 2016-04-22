@@ -51,7 +51,7 @@ var decodeAuthHeader = function (authHeader, secret) {
   }
 };
 
-modules.export  = {
+module.exports  = {
   encodeToken: encodeToken,
   decodeToken: decodeToken,
   decodeAuthHeader: decodeAuthHeader,
