@@ -1,0 +1,29 @@
+{
+  "name": "cn-auth-helper",
+  "version": "0.1.0",
+  "description": "Authentication helper for JWT based signup",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/canvara-co-in/authHelper.git"
+  },
+  "keywords": [
+    "JWT",
+    "auth-helper",
+    "canvara"
+  ],
+  "author": "Hari Narasimhan <hari@canvara.co.in> (http://canvara.co.in/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/canvara-co-in/authHelper/issues"
+  },
+  "homepage": "https://github.com/canvara-co-in/authHelper#readme",
+  "dependencies": {
+    "jwt-simple": "0.5.0",
+    "lodash": "4.11.1",
+    "moment": "2.13.0"
+  }
+}
