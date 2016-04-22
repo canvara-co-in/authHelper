@@ -4,6 +4,13 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var _ = require('lodash');
 
+/**
+* Returns a encoded payload token using the provided sub, secret and expiry.
+* @param {*} subject to be encoded
+* @param {String} Secret key for encoding
+* @param {Number=} An integer to set the expiry days (optional)
+* @returns {String} encoded token as a string
+*/
 var encodeToken = function (sub, secret, expiry) {
   expiry = (_.isInteger(expiry) && expiry > 0) ? expiry : 14;
   var payload =  {
@@ -14,6 +21,12 @@ var encodeToken = function (sub, secret, expiry) {
   return jwt.encode(payload, secret);
 };
 
+/**
+* Returns a decoded payload from the token
+* @param {String} token to be decoded
+* @param {String} Secret key for decoding
+* @returns {Object} decoded payload
+*/
 var decodeToken = function (token, secret) {
   try {
     return { payload: jwt.decode(token, secret) };
@@ -22,9 +35,15 @@ var decodeToken = function (token, secret) {
   }
 };
 
-var decodeAuthHeader = function (headers, secret) {
+/**
+* Returns a decoded payload from the http headers
+* @param {String} String containing the authorization heade4r
+* @param {String} Secret key for decoding
+* @returns {Object} decoded payload
+*/
+var decodeAuthHeader = function (authHeader, secret) {
   try {
-    var header = headers.authorization.split(' ');
+    var header = authHeader.split(' ');
     var token = header[1];
     return { payload: decodeToken(token, secret) };
   } catch (e) {
