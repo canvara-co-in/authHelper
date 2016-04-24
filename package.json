@@ -1,14 +1,17 @@
 {
   "name": "cn-auth-helper",
-  "version": "0.2.1",
+  "version": "0.0.0-semantically-released",
   "description": "Authentication helper for JWT based signup",
   "main": "src/index.js",
   "scripts": {
-    "test": "mocha ./test"
+    "commit": "git-cz",
+    "test": "mocha ./test",
+    "coverage": "istanbul cover _mocha --R ./test ",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/canvara-co-in/authHelper.git"
+    "url": "https://github.com/canvara-co-in/authHelper.git"
   },
   "keywords": [
     "JWT",
@@ -28,6 +31,13 @@
   },
   "devDependencies": {
     "chai": "3.5.0",
-    "mocha": "2.4.5"
+    "commitizen": "2.8.0",
+    "cz-conventional-changelog": "1.1.6",
+    "istanbul": "0.4.3",
+    "mocha": "2.4.5",
+    "semantic-release": "^4.3.5"
+  },
+  "czConfig": {
+    "path" : "node_modules/cz-conventional-changelog"
   }
 }

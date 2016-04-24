@@ -45,7 +45,7 @@ var decodeAuthHeader = function (authHeader, secret) {
   try {
     var header = authHeader.split(' ');
     var token = header[1];
-    return { payload: decodeToken(token, secret) };
+    return decodeToken(token, secret);
   } catch (e) {
     return { error: { code:'INVALID_TOKEN', message:'Authorization header is not valid!' } };
   }
