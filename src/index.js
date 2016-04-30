@@ -3,6 +3,7 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var _ = require('lodash');
+var Errors = require('./errors');
 
 /**
 * Returns a encoded payload token using the provided sub, secret and expiry.
@@ -31,10 +32,7 @@ var decodeToken = function (token, secret) {
   try {
     return { payload: jwt.decode(token, secret) };
   } catch (e) {
-    return { error: {
-        code: 'DECODE_ERROR',
-        message: 'Error while decoding JWT token or the token could have expired',
-      },
+    return { error: Errors.DECODE_ERROR,
     };
   }
 };
@@ -51,7 +49,7 @@ var decodeAuthHeader = function (authHeader, secret) {
     var token = header[1];
     return decodeToken(token, secret);
   } catch (e) {
-    return { error: { code:'INVALID_TOKEN', message:'Authorization header is not valid!' } };
+    return { error: Errors.INVALID_TOKEN };
   }
 };
 

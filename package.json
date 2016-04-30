@@ -33,13 +33,17 @@
     "chai": "3.5.0",
     "commitizen": "2.8.0",
     "cz-conventional-changelog": "1.1.6",
+    "ghooks": "1.2.1",
     "istanbul": "0.4.3",
     "mocha": "2.4.5",
     "semantic-release": "^4.3.5"
   },
   "config": {
-    "commitizen" : {
+    "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
+    },
+    "ghooks" : {
+      "pre-commit" : "npm run test"
     }
   }
 }

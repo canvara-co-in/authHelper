@@ -1,4 +1,6 @@
 var authHelper = require('../src');
+var Errors = require('../src/errors');
+
 var expect = require('chai').expect;
 var should = require('chai').should();
 
@@ -101,7 +103,7 @@ describe('Authenticate Token', function () {
       var result = authHelper.isAuthenticated(expiredAuthHeader, SECRET);
       expect(result).to.be.a('object');
       expect(result.isSuccess).to.equal(false);
-      expect(result.error.code).to.equal('DECODE_ERROR');
+      expect(result.error.code).to.equal(Errors.DECODE_ERROR.code);
     });
 
     it('Should return an error object for an undefined auth header', function () {
