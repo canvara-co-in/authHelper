@@ -12,7 +12,7 @@ var _ = require('lodash');
 * @returns {String} encoded token as a string
 */
 var encodeToken = function (sub, secret, expiry) {
-  expiry = (_.isInteger(expiry) && expiry > 0) ? expiry : 14;
+  expiry = (_.isInteger(expiry)) ? expiry : 14;
   var payload =  {
     exp: moment().add(expiry, 'days').unix(),
     iat: moment().unix(),
@@ -31,7 +31,11 @@ var decodeToken = function (token, secret) {
   try {
     return { payload: jwt.decode(token, secret) };
   } catch (e) {
-    return { error: { code: 'DECODE_ERROR', message: 'Error while decoding JWT token' } };
+    return { error: {
+        code: 'DECODE_ERROR',
+        message: 'Error while decoding JWT token or the token could have expired',
+      },
+    };
   }
 };
 
@@ -51,8 +55,25 @@ var decodeAuthHeader = function (authHeader, secret) {
   }
 };
 
+/**
+* Verifies the auth header is valid and has not expired
+* @param {String} String containing the authorization heade4r
+* @param {String} Secret key for decoding
+* @returns {Object} result of the operation.
+*                   if successful flag isSuccess is set to true in the response
+*/
+var isAuthenticated = function (authHeader, secret) {
+
+  var result = decodeAuthHeader(authHeader, secret);
+
+  if (result.error) return { isSuccess: false, error: result.error };
+
+  return { isSuccess: true };
+};
+
 module.exports  = {
   encodeToken: encodeToken,
   decodeToken: decodeToken,
   decodeAuthHeader: decodeAuthHeader,
+  isAuthenticated: isAuthenticated,
 };

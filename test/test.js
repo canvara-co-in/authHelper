@@ -72,3 +72,52 @@ describe('Decode Token', function () {
   });
 
 });
+
+describe('Authenticate Token', function () {
+  var SECRET = 'SECRET';
+  var validToken = authHelper.encodeToken({ user: 'user', roles: ['admin', 'staff'] }, SECRET);
+
+  var expiredToken = authHelper.encodeToken(
+    { user: 'user', roles: ['admin', 'staff'] }, SECRET, -14
+  );
+  var invalidToken = invalidAuthHeader = '';
+  var validAuthHeader = 'Bearer ' + validToken;
+  var expiredAuthHeader = 'Bearer ' + expiredToken;
+
+  describe('all', function () {
+    it('Should successfully authenticate a valid auth header', function () {
+      var result = authHelper.isAuthenticated(validAuthHeader, SECRET);
+      expect(result).to.be.a('object');
+      expect(result.isSuccess).to.equal(true);
+    });
+
+    it('Should return an  error if secret is not passed in', function () {
+      var result = authHelper.isAuthenticated(validAuthHeader);
+      expect(result).to.be.a('object');
+      expect(result.isSuccess).to.equal(false);
+    });
+
+    it('Should return an  error if token has expired', function () {
+      var result = authHelper.isAuthenticated(expiredAuthHeader, SECRET);
+      expect(result).to.be.a('object');
+      expect(result.isSuccess).to.equal(false);
+      expect(result.error.code).to.equal('DECODE_ERROR');
+    });
+
+    it('Should return an error object for an undefined auth header', function () {
+      var result = authHelper.isAuthenticated();
+      expect(result).to.be.a('object');
+      expect(result.error).to.be.a('object');
+      expect(result.error.code).to.equal('INVALID_TOKEN');
+      expect(result.isSuccess).to.equal(false);
+    });
+
+    it('Should return an error object for an invalid auth header', function () {
+      var result = authHelper.isAuthenticated(invalidAuthHeader);
+      expect(result).to.be.a('object');
+      expect(result.error).to.be.a('object');
+      expect(result.error.code).to.equal('DECODE_ERROR');
+      expect(result.isSuccess).to.equal(false);
+    });
+  });
+});
