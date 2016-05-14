@@ -74,4 +74,5 @@ module.exports  = {
   decodeToken: decodeToken,
   decodeAuthHeader: decodeAuthHeader,
   isAuthenticated: isAuthenticated,
+  Errors: Errors,
 };
