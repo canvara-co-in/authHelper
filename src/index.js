@@ -57,7 +57,7 @@ var decodeAuthHeader = function (authHeader, secret) {
 * Verifies the auth header is valid and has not expired
 * @param {String} String containing the authorization heade4r
 * @param {String} Secret key for decoding
-* @returns {Object} result of the operation.
+* @returns {Object} result of the operation with decoded payload as part of the result.
 *                   if successful flag isSuccess is set to true in the response
 */
 var isAuthenticated = function (authHeader, secret) {
@@ -66,7 +66,7 @@ var isAuthenticated = function (authHeader, secret) {
 
   if (result.error) return { isSuccess: false, error: result.error };
 
-  return { isSuccess: true };
+  return { isSuccess: true, payload: result.payload };
 };
 
 module.exports  = {

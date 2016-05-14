@@ -60,7 +60,7 @@ describe('Decode Token', function () {
       var result = authHelper.decodeAuthHeader();
       expect(result).to.be.a('object');
       expect(result.error).to.be.a('object');
-      expect(result.error.code).to.equal('INVALID_TOKEN');
+      expect(result.error.code).to.equal(Errors.INVALID_TOKEN.code);
       should.equal(result.payload, undefined);
     });
 
@@ -68,7 +68,7 @@ describe('Decode Token', function () {
       var result = authHelper.decodeAuthHeader(invalidAuthHeader);
       expect(result).to.be.a('object');
       expect(result.error).to.be.a('object');
-      expect(result.error.code).to.equal('DECODE_ERROR');
+      expect(result.error.code).to.equal(Errors.DECODE_ERROR.code);
       should.equal(result.payload, undefined);
     });
   });
@@ -91,6 +91,8 @@ describe('Authenticate Token', function () {
       var result = authHelper.isAuthenticated(validAuthHeader, SECRET);
       expect(result).to.be.a('object');
       expect(result.isSuccess).to.equal(true);
+      expect(result.payload).to.be.a('object');
+      expect(result.payload.sub.user).to.equal('user');
     });
 
     it('Should return an  error if secret is not passed in', function () {
